@@ -6,7 +6,7 @@
 
     <groupId>com.xcodel</groupId>
     <artifactId>lib-common</artifactId>
-    <version>2021.01-SNAPSHOT</version>
+    <version>2021.01-1</version>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
