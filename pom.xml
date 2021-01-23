@@ -13,7 +13,33 @@
         <maven.compiler.target>8</maven.compiler.target>
         <simple-java-mail.version>6.4.4</simple-java-mail.version>
         <lombok.version>1.18.16</lombok.version>
+        <wagon-git.version>0.1.6</wagon-git.version>
     </properties>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>synergian-repo</id>
+            <url>https://raw.github.com/synergian/wagon-git/releases</url>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <build>
+        <extensions>
+            <extension>
+                <groupId>ar.com.synergian</groupId>
+                <artifactId>wagon-git</artifactId>
+                <version>${wagon-git.version}</version>
+            </extension>
+        </extensions>
+    </build>
+
+    <distributionManagement>
+        <repository>
+            <id>xcodel-repo</id>
+            <name>Bitbucket repository</name>
+            <url>git:master://git@bitbucket.org:xcodel/xcodel-repo.git</url>
+        </repository>
+    </distributionManagement>
 
     <dependencies>
         <dependency>
