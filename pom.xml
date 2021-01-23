@@ -14,7 +14,6 @@
         <simple-java-mail.version>6.4.4</simple-java-mail.version>
         <lombok.version>1.18.16</lombok.version>
         <wagon-git.version>0.1.6</wagon-git.version>
-        <spring-boot.version>2.3.0.RELEASE</spring-boot.version>
         <junit.version>4.12</junit.version>
         <commons-lang3.version>3.11</commons-lang3.version>
     </properties>
@@ -66,11 +65,6 @@
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot</artifactId>
-            <version>${spring-boot.version}</version>
         </dependency>
     </dependencies>
 </project>
