@@ -2,9 +2,9 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.xcodel</groupId>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.xcodel.commons</groupId>
     <artifactId>lib-common</artifactId>
     <version>2021.01-1</version>
 
@@ -14,6 +14,9 @@
         <simple-java-mail.version>6.4.4</simple-java-mail.version>
         <lombok.version>1.18.16</lombok.version>
         <wagon-git.version>0.1.6</wagon-git.version>
+        <spring-boot.version>2.3.0.RELEASE</spring-boot.version>
+        <junit.version>4.12</junit.version>
+        <commons-lang3.version>3.11</commons-lang3.version>
     </properties>
 
     <pluginRepositories>
@@ -56,18 +59,18 @@
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.11</version>
+            <version>${commons-lang3.version}</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot</artifactId>
-            <version>2.3.0.RELEASE</version>
+            <version>${spring-boot.version}</version>
         </dependency>
     </dependencies>
 </project>
