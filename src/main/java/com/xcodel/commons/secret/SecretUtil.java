@@ -4,76 +4,55 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
-import javax.crypto.*;
+import javax.crypto.Cipher;
+import javax.crypto.Cipher;
+import javax.crypto.NoSuchPaddingException;
 import javax.crypto.spec.IvParameterSpec;
-import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.SecretKeySpec;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidAlgorithmParameterException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
-import java.security.spec.InvalidKeySpecException;
-import java.security.spec.KeySpec;
 import java.util.Base64;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class SecretUtil {
 
-    private static final String PBKDF_2_WITH_HMAC_SHA_256 = "PBKDF2WithHmacSHA256";
-    private static final String AES = "AES";
-    private static final String ALGORITHM = "AES/CBC/PKCS5Padding";
+    private static final String ENCRYPTION_KEY = "ABCDEFGHIJKLMNOP";
+    private static final String CHARACTER_ENCODING = "UTF-8";
+    private static final String CIPHER_TRANSFORMATION = "AES/CBC/PKCS5PADDING";
+    private static final String ENCRYPTION_ALGORITHM = "AES";
 
-    public static @NonNull String encrypt(@NonNull String input, @NonNull SecretKey key) throws NoSuchPaddingException, NoSuchAlgorithmException,
-            InvalidAlgorithmParameterException, InvalidKeyException,
-            BadPaddingException, IllegalBlockSizeException {
-        return encrypt(input, key, generateIv(false));
-    }
-
-    public static @NonNull String decrypt(@NonNull String input, @NonNull SecretKey key) throws NoSuchPaddingException, NoSuchAlgorithmException,
-            InvalidAlgorithmParameterException, InvalidKeyException,
-            BadPaddingException, IllegalBlockSizeException {
-        return decrypt(input, key, generateIv(false));
-    }
-
-    public static @NonNull String encrypt(@NonNull String input, @NonNull SecretKey key,
-                                          @NonNull IvParameterSpec iv) throws NoSuchPaddingException, NoSuchAlgorithmException,
-            InvalidAlgorithmParameterException, InvalidKeyException,
-            BadPaddingException, IllegalBlockSizeException {
-
-        Cipher cipher = Cipher.getInstance(ALGORITHM);
-        cipher.init(Cipher.ENCRYPT_MODE, key, iv);
-        byte[] cipherText = cipher.doFinal(input.getBytes());
-        return Base64.getEncoder()
-                .encodeToString(cipherText);
-    }
-
-    public static @NonNull String decrypt(@NonNull String cipherText, @NonNull SecretKey key,
-                                          @NonNull IvParameterSpec iv) throws NoSuchPaddingException, NoSuchAlgorithmException,
-            InvalidAlgorithmParameterException, InvalidKeyException,
-            BadPaddingException, IllegalBlockSizeException {
-
-        Cipher cipher = Cipher.getInstance(ALGORITHM);
-        cipher.init(Cipher.DECRYPT_MODE, key, iv);
-        byte[] plainText = cipher.doFinal(Base64.getDecoder()
-                .decode(cipherText));
-        return new String(plainText);
-    }
-
-    public static IvParameterSpec generateIv(boolean isRandom) {
-        byte[] iv = new byte[16];
-        if (isRandom) {
-            new SecureRandom().nextBytes(iv);
+    public static @NonNull String encode(@NonNull String phase) {
+        try {
+            Cipher cipher = getCipher(Cipher.ENCRYPT_MODE);
+            byte[] cipherText = cipher.doFinal(phase.getBytes(StandardCharsets.UTF_8));
+            Base64.Encoder encoder = Base64.getUrlEncoder();
+            return encoder.encodeToString(cipherText);
+        } catch (Exception e) {
+            throw new RuntimeException("error occurred while encryption", e);
         }
-        return new IvParameterSpec(iv);
     }
 
-    public static SecretKey getKeyFromPassword(String password, String salt)
-            throws NoSuchAlgorithmException, InvalidKeySpecException {
+    private static Cipher getCipher(int encryptMode) throws NoSuchAlgorithmException, NoSuchPaddingException, UnsupportedEncodingException, InvalidKeyException, InvalidAlgorithmParameterException {
+        Cipher cipher = Cipher.getInstance(CIPHER_TRANSFORMATION);
+        byte[] key = ENCRYPTION_KEY.getBytes(CHARACTER_ENCODING);
+        SecretKeySpec secretKey = new SecretKeySpec(key, ENCRYPTION_ALGORITHM);
+        IvParameterSpec ivparameterspec = new IvParameterSpec(key);
+        cipher.init(encryptMode, secretKey, ivparameterspec);
+        return cipher;
+    }
 
-        SecretKeyFactory factory = SecretKeyFactory.getInstance(PBKDF_2_WITH_HMAC_SHA_256);
-        KeySpec spec = new PBEKeySpec(password.toCharArray(), salt.getBytes(), 65536, 256);
-        return new SecretKeySpec(factory.generateSecret(spec)
-                .getEncoded(), AES);
+    public static @NonNull String decode(@NonNull String phase) {
+        try {
+            Cipher cipher = getCipher(Cipher.DECRYPT_MODE);
+            Base64.Decoder decoder = Base64.getUrlDecoder();
+            byte[] cipherText = decoder.decode(phase.getBytes(StandardCharsets.UTF_8));
+            return new String(cipher.doFinal(cipherText), StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            throw new RuntimeException("error occurred while decryption", e);
+        }
     }
 
 }

@@ -3,32 +3,18 @@ package com.xcodel.commons.secret;
 import org.junit.Assert;
 import org.junit.Test;
 
-import javax.crypto.BadPaddingException;
-import javax.crypto.IllegalBlockSizeException;
-import javax.crypto.NoSuchPaddingException;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.IvParameterSpec;
-import java.security.InvalidAlgorithmParameterException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-
 public class SecretProviderTest {
 
     @Test
-    public void givenString_whenEncrypt_thenSuccess()
-            throws NoSuchAlgorithmException, IllegalBlockSizeException, InvalidKeyException,
-            BadPaddingException, InvalidAlgorithmParameterException, NoSuchPaddingException, InvalidKeySpecException {
+    public void givenString_whenEncrypt_thenSuccess() {
 
-        SecretKey key = SecretUtil.getKeyFromPassword("X)0DEL", "ledocx");
 
-        String input = "Hi:I'm:EXCODEL";
-        IvParameterSpec ivParameterSpec = SecretUtil.generateIv(true);
-        String cipherText = SecretUtil.encrypt(input, key, ivParameterSpec);
-        String plainText = SecretUtil.decrypt(cipherText, key, ivParameterSpec);
+        String input = "M8yd1NltizBMHH7GB535H9X4Z6ozQYg0X9dZ5gPgjm+u5ZKRMQ9dlJbDkO07mUEQ";
+        String cipherText = SecretUtil.encode(input);
+        String plainText = SecretUtil.decode(cipherText);
 
-        String cipherTextLow = SecretUtil.encrypt(input, key);
-        String plainTextLow = SecretUtil.decrypt(cipherTextLow, key);
+        String cipherTextLow = SecretUtil.encode(input);
+        String plainTextLow = SecretUtil.decode(cipherTextLow);
 
         Assert.assertEquals(input, plainText);
         Assert.assertEquals(input, plainTextLow);

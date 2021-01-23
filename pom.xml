@@ -9,8 +9,8 @@
     <version>2021.01-1</version>
 
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
         <simple-java-mail.version>6.4.4</simple-java-mail.version>
         <lombok.version>1.18.16</lombok.version>
     </properties>
@@ -37,6 +37,11 @@
             <artifactId>junit</artifactId>
             <version>4.12</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot</artifactId>
+            <version>2.3.0.RELEASE</version>
         </dependency>
 
     </dependencies>
