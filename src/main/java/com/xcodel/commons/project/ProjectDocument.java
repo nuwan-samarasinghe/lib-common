@@ -14,6 +14,7 @@ public class ProjectDocument {
     private String userHref;
     private Boolean agreementStatus;
     private String price;
+    private String status;
     private List<ProjectFileInfoDocument> projectFileInfoDocuments = new ArrayList<>();
     private String createdTimestamp;
     private String userName;
