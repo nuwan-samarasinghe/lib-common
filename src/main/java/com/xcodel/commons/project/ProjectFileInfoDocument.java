@@ -17,6 +17,8 @@ public class ProjectFileInfoDocument {
     private String antennaModel;
     private String gpsCoordinatesLat;
     private String gpsCoordinatesLon;
+    private String gpsCoordinatesX;
+    private String gpsCoordinatesY;
     private String gpsCoordinatesZ;
     private String message;
 }
