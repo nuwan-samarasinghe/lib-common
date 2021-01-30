@@ -20,4 +20,5 @@ public class ProjectDocument {
     private String userName;
     private String name;
     private String organization;
+    private ProjectMode mode;
 }

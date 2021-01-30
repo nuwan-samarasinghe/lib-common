@@ -38,12 +38,26 @@ public class MailService {
         return mailService;
     }
 
-    public boolean sendMail(@NonNull Email email){
-        simpleMailer.sendMail( EmailBuilder.startingBlank()
+    public boolean sendMail(@NonNull Email email) {
+        simpleMailer.sendMail(EmailBuilder.startingBlank()
                 .to(email.getToName(), email.getToEmail())
                 .from(email.getFromName(), email.getFromEmail())
                 .withSubject(email.getSubject())
-                .withPlainText(email.getBody())
+                .withHTMLText(email.getBody())
+                .buildEmail());
+        return true;
+    }
+
+    public boolean sendMailWithCC(@NonNull Email email) {
+        Objects.nonNull(email.getCcName());
+        Objects.nonNull(email.getCcEmail());
+
+        simpleMailer.sendMail(EmailBuilder.startingBlank()
+                .to(email.getToName(), email.getToEmail())
+                .cc(email.getCcName(), email.getCcEmail())
+                .from(email.getFromName(), email.getFromEmail())
+                .withSubject(email.getSubject())
+                .withHTMLText(email.getBody())
                 .buildEmail());
         return true;
     }

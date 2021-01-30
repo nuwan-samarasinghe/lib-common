@@ -20,13 +20,15 @@ public class Email {
     @NonNull
     private String fromEmail;
 
+    private String ccName;
+
+    private String ccEmail;
+
     @NonNull
     private String subject;
 
     @NonNull
     private String body;
-
-
 
 
 }
